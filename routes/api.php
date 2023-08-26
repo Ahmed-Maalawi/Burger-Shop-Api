@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\User\UserAuthController as UserAuthControllerAlias;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\User\UserAuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth',
-    'controller' => UserAuthControllerAlias::class
+    'controller' => UserAuthController::class
 ], function ($router) {
 
     Route::post('login', 'login')->name('user.login');
@@ -36,4 +36,14 @@ Route::group([
 |--------------------------------------------------------------------------
 */
 
+Route::group([
+    'middleware' => 'admin-api',
+    'prefix' => 'admin-auth',
+    'controller' => AdminAuthController::class
+], function ($router) {
 
+    Route::post('login', 'login')->name('admin.login');
+    Route::post('logout', 'logout')->name('admin.logout');
+    Route::post('refresh', 'refresh')->name('admin.refresh');
+    Route::post('me', 'me')->name('admin.currentUser');
+});
