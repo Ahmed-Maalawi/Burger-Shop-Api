@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->json('name');
             $table->json('description');
+            $table->string('slug');
             $table->float('price', 8, 2);
             $table->float('discount', 8, 2)->nullable();
             $table->foreignIdFor(Category::class, 'category_id')->constrained('categories')

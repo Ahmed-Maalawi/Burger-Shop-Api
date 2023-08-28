@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\MealController;
 use App\Http\Controllers\User\UserAuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -61,6 +62,18 @@ Route::group([
    Route::put('update/{id}', 'update')->name('admin.category.update');
    Route::delete('delete/{id}', 'destroy')->name('admin.category.delete');
    Route::post('updateImg/{id}', 'updateCategoryImg')->name('admin.category.updateImage');
+});
+
+Route::group([
+    'prefix' => 'admin-meal',
+    'controller' => MealController::class,
+    'middleware' => 'auth:admin-api'
+], function () {
+   Route::get('all', 'index')->name('admin.meal.all');
+   Route::post('store', 'store')->name('admin.meal.store');
+   Route::get('show/{id}', 'show')->name('admin.meal.store');
+   Route::put('update/{id}', 'update')->name('admin.meal.update');
+   Route::delete('delete/{id}', 'destroy')->name('admin.meal.delete');
 });
 
 
