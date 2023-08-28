@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\User\UserAuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -46,4 +47,27 @@ Route::group([
     Route::post('logout', 'logout')->name('admin.logout');
     Route::post('refresh', 'refresh')->name('admin.refresh');
     Route::post('me', 'me')->name('admin.currentUser');
+});
+
+
+Route::group([
+    'prefix' => 'admin-category',
+    'controller' => CategoryController::class,
+    'middleware' => 'auth:admin-api'
+], function () {
+   Route::get('all', 'index')->name('admin.category.all');
+   Route::post('store', 'store')->name('admin.category.store');
+   Route::get('show/{id}', 'show')->name('admin.category.store');
+   Route::put('update/{id}', 'update')->name('admin.category.update');
+   Route::delete('delete/{id}', 'destroy')->name('admin.category.delete');
+   Route::post('updateImg/{id}', 'updateCategoryImg')->name('admin.category.updateImage');
+});
+
+
+
+
+//----------   Route Error Handling ------------------
+Route::fallback(function(){
+    return response()->json([
+        'message' => 'Page Not Found. If error persists, contact info@burgerStore.com'], 404);
 });
