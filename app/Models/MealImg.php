@@ -9,6 +9,8 @@ class MealImg extends Model
 {
     use HasFactory;
 
+    protected $with = ['Meal'];
+
     public function Meal()
     {
         return $this->belongsTo(Meal::class);

@@ -2,8 +2,9 @@
 
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\MealController;
+use App\Http\Controllers\Admin\MealImageController;
 use App\Http\Controllers\User\UserAuthController;
+use App\Http\Controllers\Admin\MealController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +39,12 @@ Route::group([
 |--------------------------------------------------------------------------
 */
 
+
+/*
+|-----------------------
+| Admin Auth Routes
+|-----------------------
+*/
 Route::group([
     'middleware' => 'admin-api',
     'prefix' => 'admin-auth',
@@ -51,6 +58,12 @@ Route::group([
 });
 
 
+
+/*
+|-----------------------
+| Admin Category CRUD Routes
+|-----------------------
+*/
 Route::group([
     'prefix' => 'admin-category',
     'controller' => CategoryController::class,
@@ -64,6 +77,11 @@ Route::group([
    Route::post('updateImg/{id}', 'updateCategoryImg')->name('admin.category.updateImage');
 });
 
+/*
+|-----------------------
+| Admin Meal CRUD Routes
+|-----------------------
+*/
 Route::group([
     'prefix' => 'admin-meal',
     'controller' => MealController::class,
@@ -74,6 +92,23 @@ Route::group([
    Route::get('show/{id}', 'show')->name('admin.meal.store');
    Route::put('update/{id}', 'update')->name('admin.meal.update');
    Route::delete('delete/{id}', 'destroy')->name('admin.meal.delete');
+});
+
+/*
+|-----------------------
+| Admin Meal Images CRUD Routes
+|-----------------------
+*/
+Route::group([
+    'prefix' => 'admin-mealImg',
+    'controller' => MealImageController::class,
+    'middleware' => 'auth:admin-api'
+], function () {
+    Route::get('all', 'index')->name('admin.mealImg.all');
+    Route::post('store', 'store')->name('admin.mealImg.store');
+    Route::get('show/{id}', 'show')->name('admin.mealImg.store');
+    Route::patch('update/{id}', 'update')->name('admin.mealImg.update');
+    Route::delete('delete/{id}', 'destroy')->name('admin.mealImg.delete');
 });
 
 
