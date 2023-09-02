@@ -22,7 +22,9 @@ class CategoryController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'get all categories',
-            'data' => Category::all()
+            'data' => Category::latest()->filter(request(['search']))
+                ->paginate(9)
+                ->appends('search')
         ]);
     }
 

@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Spatie\Sluggable\HasSlug;
 
 class Meal extends Model
 {
@@ -46,5 +46,15 @@ class Meal extends Model
                 return $model->name['en'];
             })
             ->saveSlugsTo('slug');
+    }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search']?? null, fn($query, $search) =>
+            $query->when(fn($query) =>
+                $query->where('name', 'like', '%' . request('search') . '%')
+                    ->orWhere('slug', 'like', '%' . request('search') . '%')
+            )
+        );
     }
 }

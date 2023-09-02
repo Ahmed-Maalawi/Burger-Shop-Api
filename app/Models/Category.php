@@ -19,9 +19,11 @@ class Category extends Model
     public function scopeFilter($query, array $filters)
     {
 //      -----------------------  search filter  --------------------------
-        $query->when($filters['slug']?? false, fn($query, $search) =>
+        $query->when($filters['search']?? false, fn($query, $search) =>
             $query->when(fn($query) =>
-                $query->where('slug', 'like', '%' . request('search') . '%')
+                $query->where('name->en', 'like','%' . request('search') . '%')
+                    ->orWhere('name->ar', 'like','%' . request('search') . '%')
+                    ->orWhere('slug', 'like', '%' . request('search') . '%')
             )
         );
     }

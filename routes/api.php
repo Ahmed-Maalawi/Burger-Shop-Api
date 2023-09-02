@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\MealImageController;
+use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\User\UserAuthController;
 use App\Http\Controllers\Admin\MealController;
 use Illuminate\Support\Facades\Route;
@@ -113,6 +114,23 @@ Route::group([
 
 
 
+/*
+|-----------------------
+| Admin Slider CRUD Routes
+|-----------------------
+*/
+Route::group([
+    'prefix' => 'admin-slider',
+    'controller' => SliderController::class,
+    'middleware' => 'auth:admin-api'
+], function () {
+    Route::get('all', 'index')->name('admin.slider.all');
+    Route::post('store', 'store')->name('admin.slider.store');
+    Route::get('show/{id}', 'show')->name('admin.slider.store');
+    Route::patch('update/{id}', 'update')->name('admin.slider.update');
+    Route::post('update-img/{id}', 'updateImage')->name('admin.slider.updateImg');
+    Route::delete('delete/{id}', 'destroy')->name('admin.slider.delete');
+});
 
 //----------   Route Error Handling ------------------
 Route::fallback(function(){
